@@ -144,16 +144,14 @@ if (intakeForm) {
     const hasGoals = validateChoiceGroup(intakeForm, "goals");
 
     intakeForm.classList.toggle("was-validated", true);
-    const channelsGroup = setChoiceGroupState(intakeForm, "channels", hasChannels);
-    const goalsGroup = setChoiceGroupState(intakeForm, "goals", hasGoals);
+    setChoiceGroupState(intakeForm, "channels", hasChannels);
+    setChoiceGroupState(intakeForm, "goals", hasGoals);
 
     if (!hasRequiredText || !hasChannels || !hasGoals) {
       formError.textContent =
         "Please complete the required fields before submitting.";
-      const firstInvalid = intakeForm.querySelector(":invalid");
-      if (firstInvalid) firstInvalid.focus();
-      else if (!hasChannels && channelsGroup) channelsGroup.scrollIntoView({ block: "center" });
-      else if (!hasGoals && goalsGroup) goalsGroup.scrollIntoView({ block: "center" });
+      formError.scrollIntoView({ behavior: "smooth", block: "start" });
+      formError.focus({ preventScroll: true });
       return;
     }
 

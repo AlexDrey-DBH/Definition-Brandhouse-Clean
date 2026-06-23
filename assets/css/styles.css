@@ -1020,6 +1020,7 @@ h1 {
 .form-error {
   min-height: 24px;
   margin-bottom: 18px;
+  scroll-margin-top: 28px;
   color: var(--brand-red);
   font-weight: 800;
 }
