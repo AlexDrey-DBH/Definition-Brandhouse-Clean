@@ -108,6 +108,42 @@ function setChoiceGroupState(form, name, isValid) {
   return group;
 }
 
+const requiredFieldLabels = {
+  name: "Name",
+  email: "Email",
+  website: "Website or primary profile URL",
+  whatYouDo: "In your own words, what do you do?",
+  audience: "Who do you primarily serve?",
+  difference: "What makes your work different?",
+  workingChannels: "What channels are working best right now, if any?",
+  success: "What would success look like?",
+  obstacle: "What is the biggest obstacle standing between you and that goal?",
+};
+
+function getMissingRequiredFields(form) {
+  return [...form.querySelectorAll("[required]")]
+    .filter((field) => !field.checkValidity())
+    .map((field) => requiredFieldLabels[field.name] || field.name);
+}
+
+function getValidationMessage(form, hasChannels, hasGoals) {
+  const missingFields = getMissingRequiredFields(form);
+
+  if (!hasChannels) {
+    missingFields.push("Which marketing channels are you actively using?");
+  }
+
+  if (!hasGoals) {
+    missingFields.push("What are you hoping to accomplish over the next 12 months?");
+  }
+
+  if (!missingFields.length) {
+    return "Please complete the required fields before submitting.";
+  }
+
+  return `Please complete: ${missingFields.join("; ")}.`;
+}
+
 if (intakeForm) {
   function closeThankYouModal() {
     if (!thankYou) return;
@@ -148,8 +184,7 @@ if (intakeForm) {
     setChoiceGroupState(intakeForm, "goals", hasGoals);
 
     if (!hasRequiredText || !hasChannels || !hasGoals) {
-      formError.textContent =
-        "Please complete the required fields before submitting.";
+      formError.textContent = getValidationMessage(intakeForm, hasChannels, hasGoals);
       formError.scrollIntoView({ behavior: "smooth", block: "start" });
       formError.focus({ preventScroll: true });
       return;
