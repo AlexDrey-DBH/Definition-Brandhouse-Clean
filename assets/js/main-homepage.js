@@ -4,6 +4,7 @@ const thankYouPanel = thankYou?.querySelector(".thank-you-modal__panel");
 const thankYouClose = thankYou?.querySelector(".thank-you-modal__close");
 const formError = document.querySelector("#form-error");
 const intakeEmailRecipient = "hi@defbrandhouse.com";
+const intakeBackendUrl = "PASTE_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE";
 
 function getCheckedValues(form, name) {
   return [...form.querySelectorAll(`input[name="${name}"]:checked`)].map(
@@ -77,6 +78,26 @@ function openIntakeEmail(payload) {
   window.location.href = mailtoUrl;
 }
 
+function isBackendConfigured() {
+  return intakeBackendUrl.startsWith("https://script.google.com/");
+}
+
+async function submitIntakePayload(payload) {
+  if (!isBackendConfigured()) {
+    openIntakeEmail(payload);
+    return;
+  }
+
+  await fetch(intakeBackendUrl, {
+    method: "POST",
+    mode: "no-cors",
+    headers: {
+      "Content-Type": "text/plain;charset=utf-8",
+    },
+    body: JSON.stringify(payload),
+  });
+}
+
 function validateChoiceGroup(form, name) {
   return form.querySelectorAll(`input[name="${name}"]:checked`).length > 0;
 }
@@ -114,7 +135,7 @@ if (intakeForm) {
     }
   });
 
-  intakeForm.addEventListener("submit", (event) => {
+  intakeForm.addEventListener("submit", async (event) => {
     event.preventDefault();
     formError.textContent = "";
 
@@ -138,11 +159,32 @@ if (intakeForm) {
 
     const payload = getPayload(intakeForm);
 
-    // CRM integration point: replace this local persistence with your
-    // Squarespace form action, CRM webhook, email automation, or API endpoint.
     console.log("Definition Brandhouse intake payload", payload);
     localStorage.setItem("definitionBrandhouseIntake", JSON.stringify(payload));
-    openIntakeEmail(payload);
+
+    const submitButton = intakeForm.querySelector(".form-submit");
+    if (submitButton) {
+      submitButton.disabled = true;
+      submitButton.textContent = "Sending...";
+    }
+
+    try {
+      await submitIntakePayload(payload);
+    } catch (error) {
+      console.error("Definition Brandhouse intake submission failed", error);
+      formError.textContent =
+        "Something went wrong while sending your details. Please try again.";
+      if (submitButton) {
+        submitButton.disabled = false;
+        submitButton.textContent = "Send your details";
+      }
+      return;
+    }
+
+    if (submitButton) {
+      submitButton.disabled = false;
+      submitButton.textContent = "Send your details";
+    }
 
     openThankYouModal();
   });
