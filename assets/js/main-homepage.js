@@ -1,6 +1,7 @@
 const intakeForm = document.querySelector("#brandhouse-intake-form");
 const thankYou = document.querySelector("#intake-thank-you");
 const formError = document.querySelector("#form-error");
+const intakeEmailRecipient = "hello@defbrandhouse.com";
 
 function getCheckedValues(form, name) {
   return [...form.querySelectorAll(`input[name="${name}"]:checked`)].map(
@@ -26,6 +27,52 @@ function getPayload(form) {
     obstacle: formData.get("obstacle"),
     referralSource: formData.get("referralSource"),
   };
+}
+
+function formatList(values) {
+  return values.length ? values.join(", ") : "Not provided";
+}
+
+function formatValue(value) {
+  return value && String(value).trim() ? String(value).trim() : "Not provided";
+}
+
+function buildIntakeEmail(payload) {
+  return [
+    "New Definition Brandhouse intake submission",
+    "",
+    `Submitted: ${payload.submittedAt}`,
+    "",
+    "CONTACT",
+    `Name: ${formatValue(payload.name)}`,
+    `Email: ${formatValue(payload.email)}`,
+    `Website or profile: ${formatValue(payload.website)}`,
+    `LinkedIn or social profile: ${formatValue(payload.socialProfile)}`,
+    "",
+    "YOUR WORK",
+    `What they do: ${formatValue(payload.whatYouDo)}`,
+    `Who they serve: ${formatValue(payload.audience)}`,
+    `What makes the work different: ${formatValue(payload.difference)}`,
+    "",
+    "CURRENT MARKETING",
+    `Channels actively using: ${formatList(payload.channels)}`,
+    `Channels working best now: ${formatValue(payload.workingChannels)}`,
+    "",
+    "GOALS",
+    `12-month goals: ${formatList(payload.goals)}`,
+    `What success looks like: ${formatValue(payload.success)}`,
+    `Biggest obstacle: ${formatValue(payload.obstacle)}`,
+    "",
+    "SOURCE",
+    `How they heard about Definition Brandhouse: ${formatValue(payload.referralSource)}`,
+  ].join("\n");
+}
+
+function openIntakeEmail(payload) {
+  const subject = `Definition Brandhouse intake: ${formatValue(payload.name)}`;
+  const body = buildIntakeEmail(payload);
+  const mailtoUrl = `mailto:${intakeEmailRecipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  window.location.href = mailtoUrl;
 }
 
 function validateChoiceGroup(form, name) {
@@ -67,6 +114,7 @@ if (intakeForm) {
     // Squarespace form action, CRM webhook, email automation, or API endpoint.
     console.log("Definition Brandhouse intake payload", payload);
     localStorage.setItem("definitionBrandhouseIntake", JSON.stringify(payload));
+    openIntakeEmail(payload);
 
     intakeForm.hidden = true;
     thankYou.hidden = false;
