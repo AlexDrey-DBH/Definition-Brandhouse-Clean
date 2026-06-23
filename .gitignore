@@ -1,0 +1,16 @@
+# Codex/local workspace state
+.agents/
+.codex/
+work/
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
+*.tmp
+*.log
+
+# Local QA screenshots
+outputs/qa-*.png
+outputs/*-check.png
+outputs/*-snapshot*.png
+outputs/edge-*/

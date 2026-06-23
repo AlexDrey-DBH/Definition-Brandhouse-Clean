@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="./assets/images/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" href="./assets/images/favicon-32.png" />
+    <link rel="apple-touch-icon" href="./assets/images/apple-touch-icon.png" />
+    <title>Get Started | Definition Brandhouse Strategic Intake</title>
+    <meta
+      name="description"
+      content="Tell Definition Brandhouse about your business, audience, video needs, marketing channels, and growth goals through a strategic intake form."
+    />
+    <link rel="canonical" href="https://www.defbrandhouse.com/get-started" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Get Started | Definition Brandhouse" />
+    <meta property="og:description" content="Share your brand, audience, video needs, marketing channels, and goals so Definition Brandhouse can understand your next stage of growth." />
+    <meta property="og:url" content="https://www.defbrandhouse.com/get-started" />
+    <meta name="twitter:card" content="summary" />
+    <link rel="stylesheet" href="./assets/css/styles.css" />
+  </head>
+  <body>
+    <main>
+      <section class="intake-page" aria-labelledby="intake-title">
+        <nav class="brand-home__nav intake-page__nav" aria-label="Main navigation">
+          <a class="brand-lockup" href="./index.html">
+            <img src="./assets/images/definition-brandhouse-mark.webp" alt="" />
+            <span>Definition Brandhouse</span>
+          </a>
+          <div class="nav-actions">
+            <details class="services-menu">
+              <summary>Services</summary>
+              <div class="services-menu__panel">
+                <a href="./how-we-help.html">HOW WE HELP</a>
+                <a class="services-menu__parent" href="./branding.html">Branding</a>
+                <a class="services-menu__parent" href="./digital-marketing.html">Digital Marketing</a>
+                <a class="services-menu__child" href="./amazon-ebook-ads.html">Amazon Ads</a>
+                <a class="services-menu__child" href="./email-marketing.html">Email Marketing</a>
+                <a class="services-menu__child" href="./google-ads.html">Google Ads</a>
+                <a class="services-menu__child" href="./seo.html">Search Engine Optimization</a>
+                <a class="services-menu__child" href="./social-media.html">Social Media</a>
+                <a class="services-menu__parent" href="./out-of-home.html">Out-of-Home</a>
+                <a class="services-menu__parent" href="./public-relations.html">Public Relations</a>
+                <a class="services-menu__parent" href="./website-builds.html">Website Builds</a>
+              </div>
+            </details>
+            <a class="button button--outline-dark button--nav" href="./index.html">
+              Back home
+            </a>
+          </div>
+        </nav>
+
+        <div class="intake-page__inner">
+          <div class="intake-page__hero">
+            <p class="eyebrow eyebrow--home-dark">Strategic intake</p>
+            <h1 id="intake-title">
+              <span>Tell us where you are.</span>
+              <span>We’ll map what comes next.</span>
+            </h1>
+            <p>
+              Your responses help us understand your work, your audience, and
+              the growth channels already in motion before we suggest a call.
+            </p>
+          </div>
+
+          <form class="intake-form intake-form--cards" id="brandhouse-intake-form" novalidate>
+            <div class="form-error" id="form-error" role="alert" aria-live="polite"></div>
+
+            <fieldset>
+              <legend><span>01</span> Contact</legend>
+              <div class="form-grid">
+                <label>
+                  <span>Name *</span>
+                  <input name="name" type="text" autocomplete="name" required />
+                </label>
+                <label>
+                  <span>Email *</span>
+                  <input name="email" type="email" autocomplete="email" required />
+                </label>
+                <label>
+                  <span>Website or primary profile URL *</span>
+                  <input name="website" type="url" placeholder="https://..." required />
+                </label>
+                <label>
+                  <span>LinkedIn or social profile</span>
+                  <input name="socialProfile" type="url" placeholder="https://..." />
+                </label>
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <legend><span>02</span> Your Work</legend>
+              <label>
+                <span>In your own words, what do you do? *</span>
+                <small>
+                  Pretend we know nothing. Tell us what you do, who you serve,
+                  and what makes your work different.
+                </small>
+                <textarea name="whatYouDo" rows="5" required></textarea>
+              </label>
+              <div class="form-grid">
+                <label>
+                  <span>Who do you primarily serve? *</span>
+                  <textarea name="audience" rows="4" required></textarea>
+                </label>
+                <label>
+                  <span>What makes your work different? *</span>
+                  <textarea name="difference" rows="4" required></textarea>
+                </label>
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <legend><span>03</span> Current Marketing</legend>
+              <div class="choice-group" data-required-group="channels">
+                <p>Which marketing channels are you actively using? *</p>
+                <div class="choice-grid">
+                  <label><input type="checkbox" name="channels" value="Social media" /> Social media</label>
+                  <label><input type="checkbox" name="channels" value="Email marketing" /> Email marketing</label>
+                  <label><input type="checkbox" name="channels" value="Podcast appearances" /> Podcast appearances</label>
+                  <label><input type="checkbox" name="channels" value="Public relations" /> Public relations</label>
+                  <label><input type="checkbox" name="channels" value="Paid advertising" /> Paid advertising</label>
+                  <label><input type="checkbox" name="channels" value="Speaking engagements" /> Speaking engagements</label>
+                  <label><input type="checkbox" name="channels" value="Community building" /> Community building</label>
+                  <label><input type="checkbox" name="channels" value="Content marketing" /> Content marketing</label>
+                  <label><input type="checkbox" name="channels" value="Video content" /> Video content</label>
+                  <label><input type="checkbox" name="channels" value="None yet" /> None yet</label>
+                  <label><input type="checkbox" name="channels" value="Other" /> Other</label>
+                </div>
+              </div>
+              <label>
+                <span>What channels are working best right now, if any? *</span>
+                <textarea name="workingChannels" rows="4" required></textarea>
+              </label>
+            </fieldset>
+
+            <fieldset>
+              <legend><span>04</span> Goals</legend>
+              <div class="choice-group" data-required-group="goals">
+                <p>What are you hoping to accomplish over the next 12 months? *</p>
+                <div class="choice-grid">
+                  <label><input type="checkbox" name="goals" value="Grow audience" /> Grow audience</label>
+                  <label><input type="checkbox" name="goals" value="Increase sales" /> Increase sales</label>
+                  <label><input type="checkbox" name="goals" value="Land media coverage" /> Land media coverage</label>
+                  <label><input type="checkbox" name="goals" value="Secure speaking opportunities" /> Secure speaking opportunities</label>
+                  <label><input type="checkbox" name="goals" value="Launch a new project" /> Launch a new project</label>
+                  <label><input type="checkbox" name="goals" value="Build thought leadership" /> Build thought leadership</label>
+                  <label><input type="checkbox" name="goals" value="Generate leads" /> Generate leads</label>
+                  <label><input type="checkbox" name="goals" value="Increase revenue" /> Increase revenue</label>
+                  <label><input type="checkbox" name="goals" value="Other" /> Other</label>
+                </div>
+              </div>
+              <div class="form-grid">
+                <label>
+                  <span>What would success look like? *</span>
+                  <textarea name="success" rows="4" required></textarea>
+                </label>
+                <label>
+                  <span>What is the biggest obstacle standing between you and that goal? *</span>
+                  <textarea name="obstacle" rows="4" required></textarea>
+                </label>
+              </div>
+              <label>
+                <span>How did you hear about Definition Brandhouse?</span>
+                <select name="referralSource">
+                  <option value="">Select one</option>
+                  <option>The Filmmaker's Guide to Artistic Success</option>
+                  <option>Referral</option>
+                  <option>Podcast</option>
+                  <option>Speaking event</option>
+                  <option>Social media</option>
+                  <option>Search</option>
+                  <option>Other</option>
+                </select>
+              </label>
+            </fieldset>
+
+            <button class="button button--dark form-submit" type="submit">
+              Send your details
+            </button>
+          </form>
+
+          <div class="thank-you thank-you--cards" id="intake-thank-you" hidden tabindex="-1">
+            <p class="eyebrow eyebrow--dark">Intake received</p>
+            <h2>Thanks &mdash; we’ll review your information.</h2>
+            <p>
+              Your responses help us understand where you are today and whether
+              Definition Brandhouse is the right partner for your next stage of
+              growth.
+            </p>
+            <div class="thank-you__schedule" id="schedule">
+              <h3>Want to accelerate the conversation?</h3>
+              <a class="button button--dark" href="#schedule">Schedule a Call</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer class="site-footer" aria-label="Definition Brandhouse footer">
+      <div class="site-footer__inner">
+        <div class="site-footer__brand">
+          <img src="./assets/images/definition-brandhouse-mark.webp" alt="" />
+          <div>
+            <p class="site-footer__name">Def Brandhouse</p>
+            <p>Montclair, New Jersey</p>
+          </div>
+        </div>
+        <nav class="site-footer__nav" aria-label="Footer navigation">
+          <div>
+            <h2>Core services</h2>
+            <a href="./branding.html">Branding</a>
+            <a href="./digital-marketing.html">Digital Marketing</a>
+            <a href="./out-of-home.html">Out-of-Home</a>
+            <a href="./public-relations.html">Public Relations</a>
+            <a href="./website-builds.html">Website Builds</a>
+          </div>
+          <div>
+            <h2>Digital marketing</h2>
+            <a href="./amazon-ebook-ads.html">Amazon Ads</a>
+            <a href="./email-marketing.html">Email Marketing</a>
+            <a href="./google-ads.html">Google Ads</a>
+            <a href="./seo.html">Search Engine Optimization</a>
+            <a href="./social-media.html">Social Media</a>
+          </div>
+          <div>
+            <h2>Campaign pages</h2>
+            <a href="./shari.html">Shari reader page</a>
+            <a href="./shari-help.html">Shari how we help</a>
+          </div>
+        </nav>
+      </div>
+    </footer>
+    <script src="./assets/js/main-homepage.js"></script>
+  </body>
+</html>
