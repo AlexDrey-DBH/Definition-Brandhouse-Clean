@@ -22,14 +22,15 @@ const HEADERS = [
 function doPost(event) {
   try {
     const payload = JSON.parse(event.postData.contents || "{}");
-    const sheet = getLeadSheet_();
-    sheet.appendRow(buildLeadRow_(payload));
-    sendLeadNotification_(payload);
+    const writeResult = appendLeadRow_(payload);
+    sendLeadNotification_(payload, writeResult);
 
     return jsonResponse_({
       ok: true,
       message: "Intake received",
-      sheetUrl: getSpreadsheet_().getUrl(),
+      sheetUrl: writeResult.sheetUrl,
+      sheetName: writeResult.sheetName,
+      rowNumber: writeResult.rowNumber,
     });
   } catch (error) {
     console.error(error);
@@ -42,11 +43,14 @@ function doPost(event) {
 }
 
 function doGet() {
+  const sheet = getLeadSheet_();
+
   return jsonResponse_({
     ok: true,
     service: "Definition Brandhouse intake backend",
-    sheetUrl: getSpreadsheet_().getUrl(),
-    sheetName: SHEET_NAME,
+    sheetUrl: getSheetUrl_(sheet),
+    sheetName: sheet.getName(),
+    lastRow: sheet.getLastRow(),
   });
 }
 
@@ -70,6 +74,22 @@ function getLeadSheet_() {
   return sheet;
 }
 
+function appendLeadRow_(payload) {
+  const sheet = getLeadSheet_();
+  sheet.appendRow(buildLeadRow_(payload));
+  SpreadsheetApp.flush();
+
+  return {
+    sheetName: sheet.getName(),
+    sheetUrl: getSheetUrl_(sheet),
+    rowNumber: sheet.getLastRow(),
+  };
+}
+
+function getSheetUrl_(sheet) {
+  return `${getSpreadsheet_().getUrl()}#gid=${sheet.getSheetId()}`;
+}
+
 function buildLeadRow_(payload) {
   return [
     value_(payload.submittedAt),
@@ -89,9 +109,8 @@ function buildLeadRow_(payload) {
   ];
 }
 
-function sendLeadNotification_(payload) {
+function sendLeadNotification_(payload, writeResult) {
   const subject = `Intake - ${value_(payload.name)}`;
-  const sheetUrl = getSpreadsheet_().getUrl();
   const body = [
     "A new Definition Brandhouse lead completed the intake form.",
     "",
@@ -99,7 +118,9 @@ function sendLeadNotification_(payload) {
     `Email: ${value_(payload.email)}`,
     `Website or profile: ${value_(payload.website)}`,
     "",
-    `Open the Google Sheet to review the full intake response: ${sheetUrl}`,
+    `Saved to tab: ${writeResult.sheetName}`,
+    `Saved to row: ${writeResult.rowNumber}`,
+    `Open the Google Sheet to review the full intake response: ${writeResult.sheetUrl}`,
   ].join("\n");
 
   MailApp.sendEmail(NOTIFICATION_EMAIL, subject, body);
