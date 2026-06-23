@@ -6,16 +6,27 @@ This backend receives Definition Brandhouse intake form submissions, writes them
 
 1. Create a Google Sheet for intake leads.
 2. In the Sheet, go to **Extensions > Apps Script**.
-3. Paste the contents of `intake-webhook.gs` into the Apps Script editor.
-4. Save the project.
-5. Click **Deploy > New deployment**.
-6. Choose **Web app**.
-7. Set:
+3. Copy the Google Sheet ID from the Sheet URL.
+   - Example URL: `https://docs.google.com/spreadsheets/d/SHEET_ID_HERE/edit`
+   - Copy only the part between `/d/` and `/edit`.
+4. Paste the contents of `intake-webhook.gs` into the Apps Script editor.
+5. Replace:
+
+```js
+const SPREADSHEET_ID = "PASTE_GOOGLE_SHEET_ID_HERE";
+```
+
+with your actual Sheet ID.
+
+6. Save the project.
+7. Click **Deploy > New deployment**.
+8. Choose **Web app**.
+9. Set:
    - **Execute as:** Me
    - **Who has access:** Anyone
-8. Deploy and authorize the script.
-9. Copy the Web App URL.
-10. In `assets/js/main-homepage.js`, replace:
+10. Deploy and authorize the script.
+11. Copy the Web App URL.
+12. In `assets/js/main-homepage.js`, replace:
 
 ```js
 const intakeBackendUrl = "PASTE_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE";

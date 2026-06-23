@@ -1,3 +1,4 @@
+const SPREADSHEET_ID = "PASTE_GOOGLE_SHEET_ID_HERE";
 const SHEET_NAME = "Intake Leads";
 const NOTIFICATION_EMAIL = "hi@defbrandhouse.com";
 
@@ -39,7 +40,7 @@ function doPost(event) {
 }
 
 function getLeadSheet_() {
-  const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+  const spreadsheet = SpreadsheetApp.openById(SPREADSHEET_ID);
   let sheet = spreadsheet.getSheetByName(SHEET_NAME);
 
   if (!sheet) {
@@ -75,6 +76,7 @@ function buildLeadRow_(payload) {
 
 function sendLeadNotification_(payload) {
   const subject = `Intake - ${value_(payload.name)}`;
+  const sheetUrl = SpreadsheetApp.openById(SPREADSHEET_ID).getUrl();
   const body = [
     "A new Definition Brandhouse lead completed the intake form.",
     "",
@@ -82,7 +84,7 @@ function sendLeadNotification_(payload) {
     `Email: ${value_(payload.email)}`,
     `Website or profile: ${value_(payload.website)}`,
     "",
-    "Open the Google Sheet to review the full intake response.",
+    `Open the Google Sheet to review the full intake response: ${sheetUrl}`,
   ].join("\n");
 
   MailApp.sendEmail(NOTIFICATION_EMAIL, subject, body);
