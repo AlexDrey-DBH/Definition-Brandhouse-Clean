@@ -1,7 +1,7 @@
 const intakeForm = document.querySelector("#brandhouse-intake-form");
 const thankYou = document.querySelector("#intake-thank-you");
 const formError = document.querySelector("#form-error");
-const intakeEmailRecipient = "hello@defbrandhouse.com";
+const intakeEmailRecipient = "hi@defbrandhouse.com";
 
 function getCheckedValues(form, name) {
   return [...form.querySelectorAll(`input[name="${name}"]:checked`)].map(
@@ -69,7 +69,7 @@ function buildIntakeEmail(payload) {
 }
 
 function openIntakeEmail(payload) {
-  const subject = `Definition Brandhouse intake: ${formatValue(payload.name)}`;
+  const subject = `Intake - ${formatValue(payload.name)}`;
   const body = buildIntakeEmail(payload);
   const mailtoUrl = `mailto:${intakeEmailRecipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   window.location.href = mailtoUrl;
