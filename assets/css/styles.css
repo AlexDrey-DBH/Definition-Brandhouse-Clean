@@ -1771,6 +1771,17 @@ h3 {
   font-size: clamp(2.2rem, 4.1vw, 4.5rem);
 }
 
+.website-proof__title {
+  max-width: 7.8em;
+  line-height: 0.98;
+  text-wrap: balance;
+}
+
+.website-proof__title span {
+  display: block;
+  white-space: nowrap;
+}
+
 .website-proof__copy p:not(.eyebrow) {
   margin: 20px 0 0;
   color: rgba(21, 32, 28, 0.76);
