@@ -1,5 +1,7 @@
 const intakeForm = document.querySelector("#brandhouse-intake-form");
 const thankYou = document.querySelector("#intake-thank-you");
+const thankYouPanel = thankYou?.querySelector(".thank-you-modal__panel");
+const thankYouClose = thankYou?.querySelector(".thank-you-modal__close");
 const formError = document.querySelector("#form-error");
 const intakeEmailRecipient = "hi@defbrandhouse.com";
 
@@ -86,6 +88,32 @@ function setChoiceGroupState(form, name, isValid) {
 }
 
 if (intakeForm) {
+  function closeThankYouModal() {
+    if (!thankYou) return;
+    thankYou.hidden = true;
+    document.body.style.overflow = "";
+    intakeForm.querySelector(".form-submit")?.focus();
+  }
+
+  function openThankYouModal() {
+    if (!thankYou) return;
+    thankYou.hidden = false;
+    document.body.style.overflow = "hidden";
+    thankYouPanel?.focus();
+  }
+
+  thankYouClose?.addEventListener("click", closeThankYouModal);
+
+  thankYou?.addEventListener("click", (event) => {
+    if (event.target === thankYou) closeThankYouModal();
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && thankYou && !thankYou.hidden) {
+      closeThankYouModal();
+    }
+  });
+
   intakeForm.addEventListener("submit", (event) => {
     event.preventDefault();
     formError.textContent = "";
@@ -116,9 +144,7 @@ if (intakeForm) {
     localStorage.setItem("definitionBrandhouseIntake", JSON.stringify(payload));
     openIntakeEmail(payload);
 
-    intakeForm.hidden = true;
-    thankYou.hidden = false;
-    thankYou.focus();
+    openThankYouModal();
   });
 }
 

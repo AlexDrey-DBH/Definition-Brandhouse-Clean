@@ -179,18 +179,28 @@
               Send your details
             </button>
           </form>
-
-          <div class="thank-you thank-you--cards" id="intake-thank-you" hidden tabindex="-1">
-            <p class="eyebrow eyebrow--dark">Intake received</p>
-            <h2>Thanks &mdash; we’ll review your information.</h2>
-            <p>
-              Your responses help us understand where you are today and whether
-              Definition Brandhouse is the right partner for your next stage of
-              growth.
-            </p>
-            <div class="thank-you__schedule" id="schedule">
-              <h3>Want to accelerate the conversation?</h3>
-              <a class="button button--dark" href="#schedule">Schedule a Call</a>
+          <div class="thank-you-modal" id="intake-thank-you" hidden>
+            <div
+              class="thank-you thank-you--cards thank-you-modal__panel"
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="intake-thank-you-title"
+              tabindex="-1"
+            >
+              <button class="thank-you-modal__close" type="button" aria-label="Close thank you message">
+                &times;
+              </button>
+              <p class="eyebrow eyebrow--dark">Intake received</p>
+              <h2 id="intake-thank-you-title">Thanks &mdash; we&rsquo;ll review your information.</h2>
+              <p>
+                Your responses help us understand where you are today and whether
+                Definition Brandhouse is the right partner for your next stage of
+                growth.
+              </p>
+              <div class="thank-you__schedule" id="schedule">
+                <h3>Want to accelerate the conversation?</h3>
+                <a class="button button--dark" href="#schedule">Schedule a Call</a>
+              </div>
             </div>
           </div>
         </div>
