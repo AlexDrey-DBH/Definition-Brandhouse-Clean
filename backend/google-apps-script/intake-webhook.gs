@@ -1,4 +1,4 @@
-const SPREADSHEET_ID = "PASTE_GOOGLE_SHEET_ID_HERE";
+const SPREADSHEET_ID = "108Yg4ktsaCSKPhD_wwQB66d7dWtHt4T5T07f1iOtMwE";
 const SHEET_NAME = "Intake Leads";
 const NOTIFICATION_EMAIL = "hi@defbrandhouse.com";
 
@@ -29,9 +29,11 @@ function doPost(event) {
     return jsonResponse_({
       ok: true,
       message: "Intake received",
+      sheetUrl: getSpreadsheet_().getUrl(),
     });
   } catch (error) {
     console.error(error);
+    sendErrorNotification_(error);
     return jsonResponse_({
       ok: false,
       message: error.message,
@@ -39,8 +41,21 @@ function doPost(event) {
   }
 }
 
+function doGet() {
+  return jsonResponse_({
+    ok: true,
+    service: "Definition Brandhouse intake backend",
+    sheetUrl: getSpreadsheet_().getUrl(),
+    sheetName: SHEET_NAME,
+  });
+}
+
+function getSpreadsheet_() {
+  return SpreadsheetApp.openById(SPREADSHEET_ID);
+}
+
 function getLeadSheet_() {
-  const spreadsheet = SpreadsheetApp.openById(SPREADSHEET_ID);
+  const spreadsheet = getSpreadsheet_();
   let sheet = spreadsheet.getSheetByName(SHEET_NAME);
 
   if (!sheet) {
@@ -76,7 +91,7 @@ function buildLeadRow_(payload) {
 
 function sendLeadNotification_(payload) {
   const subject = `Intake - ${value_(payload.name)}`;
-  const sheetUrl = SpreadsheetApp.openById(SPREADSHEET_ID).getUrl();
+  const sheetUrl = getSpreadsheet_().getUrl();
   const body = [
     "A new Definition Brandhouse lead completed the intake form.",
     "",
@@ -88,6 +103,20 @@ function sendLeadNotification_(payload) {
   ].join("\n");
 
   MailApp.sendEmail(NOTIFICATION_EMAIL, subject, body);
+}
+
+function sendErrorNotification_(error) {
+  MailApp.sendEmail(
+    NOTIFICATION_EMAIL,
+    "Intake backend error",
+    [
+      "The Definition Brandhouse intake backend received a submission but could not finish processing it.",
+      "",
+      `Error: ${error.message}`,
+      "",
+      `Configured Sheet ID: ${SPREADSHEET_ID}`,
+    ].join("\n"),
+  );
 }
 
 function value_(value) {
