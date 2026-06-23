@@ -4,7 +4,7 @@ const thankYouPanel = thankYou?.querySelector(".thank-you-modal__panel");
 const thankYouClose = thankYou?.querySelector(".thank-you-modal__close");
 const formError = document.querySelector("#form-error");
 const intakeEmailRecipient = "hi@defbrandhouse.com";
-const intakeBackendUrl = "PASTE_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE";
+const intakeBackendUrl = "https://script.google.com/macros/s/AKfycbzuDfqO1c3Kj5qHv85flLhzHhrgH_jP8Fgxj_IwgQYFq_wbJfz5ym5j0EM6MtZaxZYC/exec";
 
 function getCheckedValues(form, name) {
   return [...form.querySelectorAll(`input[name="${name}"]:checked`)].map(
