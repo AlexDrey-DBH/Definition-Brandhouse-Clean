@@ -18,6 +18,7 @@
     <meta property="og:url" content="https://www.defbrandhouse.com/get-started" />
     <meta name="twitter:card" content="summary" />
     <link rel="stylesheet" href="./assets/css/styles.css" />
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
   </head>
   <body>
     <main>
@@ -174,6 +175,15 @@
                 </select>
               </label>
             </fieldset>
+
+            <div class="captcha-verification" aria-label="Spam protection">
+              <div
+                class="g-recaptcha"
+                data-sitekey="6LenR3QtAAAAAOsBTc9d-lITQFWIr_fyutCL_6LD"
+                data-theme="light"
+              ></div>
+              <small>Protected by CAPTCHA verification so real inquiries do not get buried by spam.</small>
+            </div>
 
             <button class="button button--dark form-submit" type="submit">
               Send your details

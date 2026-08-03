@@ -1,6 +1,8 @@
 const SPREADSHEET_ID = "108Yg4ktsaCSKPhD_wwQB66d7dWtHt4T5T07f1iOtMwE";
 const SHEET_NAME = "Intake Leads";
 const NOTIFICATION_EMAIL = "hi@defbrandhouse.com";
+const RECAPTCHA_SECRET_PROPERTY = "RECAPTCHA_SECRET_KEY";
+const RECAPTCHA_VERIFY_URL = "https://www.google.com/recaptcha/api/siteverify";
 
 const HEADERS = [
   "Submitted At",
@@ -22,6 +24,7 @@ const HEADERS = [
 function doPost(event) {
   try {
     const payload = JSON.parse(event.postData.contents || "{}");
+    verifyRecaptcha_(payload);
     const writeResult = appendLeadRow_(payload);
     sendLeadNotification_(payload, writeResult);
 
@@ -52,6 +55,43 @@ function doGet() {
     sheetName: sheet.getName(),
     lastRow: sheet.getLastRow(),
   });
+}
+
+
+function verifyRecaptcha_(payload) {
+  const secret = getRecaptchaSecret_();
+  const token = value_(payload.captchaToken);
+
+  if (!token) {
+    throw new Error("CAPTCHA verification is missing.");
+  }
+
+  const response = UrlFetchApp.fetch(RECAPTCHA_VERIFY_URL, {
+    method: "post",
+    payload: {
+      secret,
+      response: token,
+    },
+    muteHttpExceptions: true,
+  });
+
+  const result = JSON.parse(response.getContentText() || "{}");
+
+  if (!result.success) {
+    throw new Error(`CAPTCHA verification failed: ${list_(result["error-codes"]) || "unknown error"}`);
+  }
+}
+
+function getRecaptchaSecret_() {
+  const secret = PropertiesService
+    .getScriptProperties()
+    .getProperty(RECAPTCHA_SECRET_PROPERTY);
+
+  if (!secret) {
+    throw new Error(`reCAPTCHA secret key is not configured. Set Apps Script property ${RECAPTCHA_SECRET_PROPERTY}.`);
+  }
+
+  return secret;
 }
 
 function getSpreadsheet_() {

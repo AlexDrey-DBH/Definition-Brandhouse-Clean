@@ -5,6 +5,7 @@ const thankYouClose = thankYou?.querySelector(".thank-you-modal__close");
 const formError = document.querySelector("#form-error");
 const intakeEmailRecipient = "hi@defbrandhouse.com";
 const intakeBackendUrl = "https://script.google.com/macros/s/AKfycbzuDfqO1c3Kj5qHv85flLhzHhrgH_jP8Fgxj_IwgQYFq_wbJfz5ym5j0EM6MtZaxZYC/exec";
+const captchaResponseFieldName = "g-recaptcha-response";
 
 function getCheckedValues(form, name) {
   return [...form.querySelectorAll(`input[name="${name}"]:checked`)].map(
@@ -29,6 +30,7 @@ function getPayload(form) {
     success: formData.get("success"),
     obstacle: formData.get("obstacle"),
     referralSource: formData.get("referralSource"),
+    captchaToken: formData.get(captchaResponseFieldName),
   };
 }
 
@@ -126,7 +128,18 @@ function getMissingRequiredFields(form) {
     .map((field) => requiredFieldLabels[field.name] || field.name);
 }
 
-function getValidationMessage(form, hasChannels, hasGoals) {
+function hasCaptchaToken(form) {
+  const token = new FormData(form).get(captchaResponseFieldName);
+  return Boolean(token && String(token).trim());
+}
+
+function resetCaptcha() {
+  if (window.grecaptcha) {
+    window.grecaptcha.reset();
+  }
+}
+
+function getValidationMessage(form, hasChannels, hasGoals, hasCaptcha) {
   const missingFields = getMissingRequiredFields(form);
 
   if (!hasChannels) {
@@ -135,6 +148,10 @@ function getValidationMessage(form, hasChannels, hasGoals) {
 
   if (!hasGoals) {
     missingFields.push("What are you hoping to accomplish over the next 12 months?");
+  }
+
+  if (!hasCaptcha) {
+    missingFields.push("CAPTCHA verification");
   }
 
   if (!missingFields.length) {
@@ -178,13 +195,14 @@ if (intakeForm) {
     const hasRequiredText = intakeForm.checkValidity();
     const hasChannels = validateChoiceGroup(intakeForm, "channels");
     const hasGoals = validateChoiceGroup(intakeForm, "goals");
+    const hasCaptcha = hasCaptchaToken(intakeForm);
 
     intakeForm.classList.toggle("was-validated", true);
     setChoiceGroupState(intakeForm, "channels", hasChannels);
     setChoiceGroupState(intakeForm, "goals", hasGoals);
 
-    if (!hasRequiredText || !hasChannels || !hasGoals) {
-      formError.textContent = getValidationMessage(intakeForm, hasChannels, hasGoals);
+    if (!hasRequiredText || !hasChannels || !hasGoals || !hasCaptcha) {
+      formError.textContent = getValidationMessage(intakeForm, hasChannels, hasGoals, hasCaptcha);
       formError.scrollIntoView({ behavior: "smooth", block: "start" });
       formError.focus({ preventScroll: true });
       return;
@@ -207,6 +225,7 @@ if (intakeForm) {
       console.error("Definition Brandhouse intake submission failed", error);
       formError.textContent =
         "Something went wrong while sending your details. Please try again.";
+      resetCaptcha();
       if (submitButton) {
         submitButton.disabled = false;
         submitButton.textContent = "Send your details";
@@ -219,6 +238,7 @@ if (intakeForm) {
       submitButton.textContent = "Send your details";
     }
 
+    resetCaptcha();
     openThankYouModal();
   });
 }

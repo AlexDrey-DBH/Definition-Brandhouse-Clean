@@ -1037,6 +1037,23 @@ h1 {
   border-radius: 8px;
 }
 
+
+.captcha-verification {
+  display: grid;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.captcha-verification small {
+  max-width: 420px;
+  color: rgba(21, 32, 28, 0.62);
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.g-recaptcha {
+  min-height: 65px;
+}
 .form-submit {
   width: min(260px, 100%);
   margin-top: 8px;
