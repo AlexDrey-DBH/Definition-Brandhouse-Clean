@@ -7,6 +7,31 @@ const intakeEmailRecipient = "hi@defbrandhouse.com";
 const intakeBackendUrl = "https://script.google.com/macros/s/AKfycbzuDfqO1c3Kj5qHv85flLhzHhrgH_jP8Fgxj_IwgQYFq_wbJfz5ym5j0EM6MtZaxZYC/exec";
 const captchaResponseFieldName = "g-recaptcha-response";
 
+function isLocalPreview() {
+  return window.location.protocol === "file:" || ["localhost", "127.0.0.1"].includes(window.location.hostname);
+}
+
+function setupCaptcha() {
+  const captchaWidget = document.querySelector(".g-recaptcha");
+
+  if (!captchaWidget) {
+    return;
+  }
+
+  if (isLocalPreview()) {
+    captchaWidget.classList.add("captcha-preview-bypass");
+    captchaWidget.setAttribute("role", "status");
+    captchaWidget.textContent = "CAPTCHA is bypassed in local preview. The live site will show Google verification.";
+    return;
+  }
+
+  const script = document.createElement("script");
+  script.src = "https://www.google.com/recaptcha/api.js";
+  script.async = true;
+  script.defer = true;
+  document.head.appendChild(script);
+}
+
 function getCheckedValues(form, name) {
   return [...form.querySelectorAll(`input[name="${name}"]:checked`)].map(
     (input) => input.value,
@@ -129,6 +154,10 @@ function getMissingRequiredFields(form) {
 }
 
 function hasCaptchaToken(form) {
+  if (isLocalPreview()) {
+    return true;
+  }
+
   const token = new FormData(form).get(captchaResponseFieldName);
   return Boolean(token && String(token).trim());
 }
@@ -160,6 +189,8 @@ function getValidationMessage(form, hasChannels, hasGoals, hasCaptcha) {
 
   return `Please complete: ${missingFields.join("; ")}.`;
 }
+
+setupCaptcha();
 
 if (intakeForm) {
   function closeThankYouModal() {
