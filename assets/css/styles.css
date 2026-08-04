@@ -138,6 +138,10 @@ h1 {
   filter: invert(1);
 }
 
+.brand-lockup__wordmark strong {
+  font-weight: 800;
+}
+
 .brand-lockup img {
   width: 42px;
   height: 42px;

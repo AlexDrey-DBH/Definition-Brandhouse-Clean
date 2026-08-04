@@ -18,6 +18,7 @@ img { max-width: 100%; }
 .skip-link:focus { left: 12px; }
 .site-header { position: sticky; top: 0; z-index: 20; display: grid; grid-template-columns: auto 1fr auto; gap: 22px; align-items: center; padding: 16px clamp(18px, 4vw, 56px); border-bottom: 1px solid var(--line); background: rgba(247, 243, 234, 0.92); backdrop-filter: blur(18px); }
 .brand-lockup { display: inline-flex; align-items: center; gap: 12px; color: var(--pine); font-size: .82rem; font-weight: 400; letter-spacing: .15em; text-transform: uppercase; text-decoration: none; }
+.brand-lockup__wordmark strong { font-weight: 800; }
 .brand-lockup img { width: 38px; height: 38px; object-fit: contain; }
 .site-nav { display: flex; justify-content: center; gap: clamp(10px, 2vw, 24px); font-size: .9rem; font-weight: 700; }
 .site-nav a { text-decoration: none; border-bottom: 2px solid transparent; padding: 8px 0; }
