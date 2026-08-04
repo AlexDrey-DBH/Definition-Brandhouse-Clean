@@ -328,3 +328,47 @@ if (lightboxTriggers.length) {
     if (event.key === "Escape" && !lightbox.hidden) closeLightbox();
   });
 }
+const mockupScrollScenes = document.querySelectorAll("[data-scroll-scene]");
+
+if (mockupScrollScenes.length) {
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const compactLayout = window.matchMedia("(max-width: 760px)");
+  let mockupAnimationFrame = null;
+
+  function updateMockupScroll() {
+    mockupAnimationFrame = null;
+
+    mockupScrollScenes.forEach((scene) => {
+      const sceneRect = scene.getBoundingClientRect();
+      const sceneTop = window.scrollY + sceneRect.top;
+      const start = sceneTop - window.innerHeight * 0.58;
+      const end = sceneTop + scene.offsetHeight - window.innerHeight * 0.72;
+      const distance = Math.max(end - start, 1);
+      const progress = reducedMotion.matches || compactLayout.matches
+        ? 0
+        : Math.min(1, Math.max(0, (window.scrollY - start) / distance));
+
+      scene.querySelectorAll("[data-scroll-mockup]").forEach((viewport) => {
+        const image = viewport.querySelector("img");
+        if (!image) return;
+        const maxShift = Math.max(0, image.scrollHeight - viewport.clientHeight);
+        viewport.style.setProperty("--mockup-shift", `${-maxShift * progress}px`);
+      });
+    });
+  }
+
+  function requestMockupUpdate() {
+    if (mockupAnimationFrame !== null) return;
+    mockupAnimationFrame = window.requestAnimationFrame(updateMockupScroll);
+  }
+
+  mockupScrollScenes.forEach((scene) => {
+    scene.querySelectorAll("img").forEach((image) => {
+      if (!image.complete) image.addEventListener("load", requestMockupUpdate, { once: true });
+    });
+  });
+
+  window.addEventListener("scroll", requestMockupUpdate, { passive: true });
+  window.addEventListener("resize", requestMockupUpdate);
+  updateMockupScroll();
+}

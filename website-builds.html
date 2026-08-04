@@ -144,7 +144,7 @@
             <span>On-spec updates</span>
           </div>
 
-          <div class="website-proof website-proof--featured" aria-labelledby="website-proof-title">
+          <div class="website-proof website-proof--featured" data-scroll-scene aria-labelledby="website-proof-title">
             <div class="website-proof__copy">
               <p class="eyebrow eyebrow--dark">Featured Project</p>
               <h2 id="website-proof-title" class="website-proof__title">
@@ -174,31 +174,45 @@
               </a>
             </div>
 
-            <div class="website-proof__mockups" aria-label="Live Enlightened Path Healing desktop and mobile website previews">
+            <div class="website-proof__mockups" aria-label="Scrolling Enlightened Path Healing desktop and mobile website previews">
               <figure class="browser-frame">
                 <div class="browser-frame__bar" aria-hidden="true">
                   <span></span>
                   <span></span>
                   <span></span>
                 </div>
-                <div class="browser-frame__viewport">
-                  <iframe
-                    src="https://enlightenedpathhealing.com/"
-                    title="Live desktop preview of the Enlightened Path Healing website"
+                <button
+                  class="lightbox-trigger mockup-scroll"
+                  type="button"
+                  data-scroll-mockup
+                  data-full="./assets/images/enlightened-path-content-desktop.webp"
+                  data-caption="Current desktop preview of the Enlightened Path Healing website"
+                  aria-label="Open Enlightened Path Healing desktop preview fullscreen"
+                >
+                  <img
+                    src="./assets/images/enlightened-path-content-desktop.webp"
+                    alt="Current desktop preview of the Enlightened Path Healing website"
                     loading="lazy"
-                    sandbox="allow-scripts allow-same-origin"
-                  ></iframe>
-                </div>
+                    decoding="async"
+                  />
+                </button>
               </figure>
               <figure class="phone-frame">
-                <div class="phone-frame__viewport">
-                  <iframe
-                    src="https://enlightenedpathhealing.com/"
-                    title="Live mobile preview of the Enlightened Path Healing website"
+                <button
+                  class="lightbox-trigger mockup-scroll"
+                  type="button"
+                  data-scroll-mockup
+                  data-full="./assets/images/enlightened-path-content-mobile.webp"
+                  data-caption="Current mobile preview of the Enlightened Path Healing website"
+                  aria-label="Open Enlightened Path Healing mobile preview fullscreen"
+                >
+                  <img
+                    src="./assets/images/enlightened-path-content-mobile.webp"
+                    alt="Current mobile preview of the Enlightened Path Healing website"
                     loading="lazy"
-                    sandbox="allow-scripts allow-same-origin"
-                  ></iframe>
-                </div>
+                    decoding="async"
+                  />
+                </button>
               </figure>
             </div>
           </div>

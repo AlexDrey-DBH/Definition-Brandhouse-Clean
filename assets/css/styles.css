@@ -15,13 +15,13 @@
 
 html {
   scroll-behavior: smooth;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 body {
   margin: 0;
   min-width: 320px;
-  overflow-x: hidden;
+  overflow-x: clip;
   color: var(--ink);
   background: var(--paper);
   font-family:
@@ -1993,19 +1993,6 @@ h3 {
   background: rgba(21, 32, 28, 0.25);
 }
 
-.browser-frame__viewport {
-  height: clamp(320px, 42vw, 540px);
-  overflow: hidden;
-}
-
-.browser-frame iframe,
-.phone-frame iframe {
-  display: block;
-  width: 100%;
-  height: 100%;
-  border: 0;
-  background: #fff;
-}
 
 .phone-frame {
   position: absolute;
@@ -2032,8 +2019,7 @@ h3 {
   pointer-events: none;
 }
 
-.phone-frame .lightbox-trigger,
-.phone-frame__viewport {
+.phone-frame .lightbox-trigger {
   aspect-ratio: 9 / 19.5;
   overflow: hidden;
   border-radius: 29px;
@@ -2059,6 +2045,35 @@ h3 {
 .phone-frame .lightbox-trigger img {
   height: 100%;
   border-radius: 29px;
+}
+
+.website-proof--featured[data-scroll-scene] {
+  min-height: min(1180px, 138vh);
+}
+
+.mockup-scroll {
+  position: relative;
+  overflow: hidden;
+}
+
+.browser-frame .mockup-scroll {
+  height: clamp(320px, 42vw, 540px);
+}
+
+.mockup-scroll img,
+.browser-frame .mockup-scroll img,
+.phone-frame .mockup-scroll img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+  max-width: none;
+  border-radius: 0;
+  object-fit: contain;
+  transform: translate3d(0, var(--mockup-shift, 0px), 0);
+  transition: transform 80ms linear;
+  will-change: transform;
 }
 
 .ooh-case {
@@ -2240,6 +2255,7 @@ h3 {
 
   .website-proof--featured {
     grid-template-columns: 1fr;
+    min-height: auto;
   }
 
   .website-proof__mockups {
